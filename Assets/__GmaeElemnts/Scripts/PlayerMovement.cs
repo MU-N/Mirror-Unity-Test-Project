@@ -14,6 +14,7 @@ public class PlayerMovement : NetworkBehaviour
             Vector3 movement = new Vector3(moveHorizontal * 0.1f, moveVertical * 0.1f, 0);
             transform.position = transform.position + movement;
         }
+
     }
 
 
@@ -21,5 +22,29 @@ public class PlayerMovement : NetworkBehaviour
     private void Update()
     {
         HandleMovement();
+        if (isLocalPlayer && Input.GetKeyDown(KeyCode.X))
+        {
+            Debug.Log("Sending hello to Server!");
+            SayHello();
+        }
+        
+    }
+
+    [Command]
+    void  SayHello()
+    {
+        Debug.Log("Sens hello");
+    }
+
+    [ClientRpc]
+    void TooHigh()
+    {
+        Debug.Log("Too high!");
+    }
+
+    [TargetRpc]
+    void ReplyHola()
+    {
+        Debug.Log("Received Hola from Server!");
     }
 }
